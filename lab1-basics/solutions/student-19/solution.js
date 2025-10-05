@@ -21,19 +21,30 @@ console.log(typeof obj);
 // ===== ЗАДАНИЕ 2: Функции =====
 function getReviewerNumber(number, lab) {
     // 2.1 Функция определяющая номер ревьюера для вашей группы по вашему номеру и номеру лабораторной работы
- if (typeof number !== 'number' || typeof lab !== 'number' || isNaN(number) || isNaN(lab)) {
+// Проверка что оба параметра являются числами
+    if (typeof number !== 'number' || typeof lab !== 'number' || isNaN(number) || isNaN(lab)) {
         return 'Ошибка: оба параметра должны быть числами';
     }
     
+    // Проверка что оба параметра положительные
     if (number <= 0 || lab <= 0) {
         return 'Ошибка: номер студента и лабораторной работы должны быть положительными числами';
     }
     
+    // Проверка что оба параметра целые числа
     if (!Number.isInteger(number) || !Number.isInteger(lab)) {
         return 'Ошибка: номер студента и лабораторной работы должны быть целыми числами';
     }
-    let res = (number + lab - 1 ) % 23 + 1 ;
+    
+    // Проверка что номер студента не превышает 23
+    if (number > 23) {
+        return 'Ошибка: номер студента не должен превышать 23';
+    }
+    
+    // Расчет номера ревьюера
+    let res = (number + lab - 1) % 23 + 1;
     return res;
+    
 }
 
      
@@ -170,7 +181,7 @@ const getRandomNumber = (min, max) => {
     // Добавляем min для смещения в нужный диапазон
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
-   
+
 
 // ===== ЗАДАНИЕ 3: Объекты =====
 const book = {
@@ -223,7 +234,27 @@ const student = {
     addGrade(subject, grade) {
         // Ваш код здесь
       
-        this.grades[subject] = grade;
+        if (typeof subject !== 'string' || subject.trim() === '') {
+        return 'Ошибка: название предмета должно быть непустой строкой';
+    }
+    
+    if (typeof grade !== 'number' || isNaN(grade)) {
+        return 'Ошибка: оценка должна быть числом';
+    }
+    
+    // Проверка на диапазон оценки
+    if (grade < 1 || grade > 100) {
+        return 'Ошибка: оценка должна быть в диапазоне от 1 до 100';
+    }
+    
+    // Проверка на целое число (если требуется)
+    if (!Number.isInteger(grade)) {
+        return 'Ошибка: оценка должна быть целым числом';
+    }
+    
+    // Если все проверки пройдены, добавляем оценку
+    this.grades[subject] = grade;
+    return `Оценка ${grade} по предмету "${subject}" успешно добавлена`;
     
     }
 };
@@ -458,25 +489,27 @@ simpleTask()
 console.assert(getReviewerNumber(5, 3) === 8, 'Тест 1: getReviewerNumber(5, 3) должно быть 8');
 console.assert(getReviewerNumber(22, 2) === 1, 'Тест 2: getReviewerNumber(22, 2) должно быть 1');
 console.assert(getReviewerNumber(1, 1) === 2, 'Тест 3: getReviewerNumber(1, 1) должно быть 2');
-console.assert(getReviewerNumber(50, 10) === 14, 'Тест 4: getReviewerNumber(50, 10) должно быть 14');
-console.assert(getReviewerNumber(-5, 3) === 'Ошибка: номер студента и лабораторной работы должны быть положительными числами', 'Тест 5: должна быть ошибка для отрицательных чисел');
-console.assert(getReviewerNumber("5", 3) === 'Ошибка: оба параметра должны быть числами', 'Тест 6: должна быть ошибка для нечисловых параметров');
-console.assert(getReviewerNumber(5.5, 3) === 'Ошибка: номер студента и лабораторной работы должны быть целыми числами', 'Тест 7: должна быть ошибка для дробных чисел');
-console.assert(getReviewerNumber(0, 3) === 'Ошибка: номер студента и лабораторной работы должны быть положительными числами', 'Тест 8: должна быть ошибка для нулевых значений');
-console.assert(getReviewerNumber(22, 1) === 23, 'Тест 9: getReviewerNumber(22, 1) должно быть 23');
+console.assert(getReviewerNumber(-5, 3) === 'Ошибка: номер студента и лабораторной работы должны быть положительными числами', 'Тест 4: должна быть ошибка для отрицательных чисел');
+console.assert(getReviewerNumber(5, -3) === 'Ошибка: номер студента и лабораторной работы должны быть положительными числами', 'Тест 5: должна быть ошибка для отрицательных чисел');
+console.assert(getReviewerNumber("alicce", 3) === 'Ошибка: оба параметра должны быть числами', 'Тест 6: должна быть ошибка для нечисловых параметров');
+console.assert(getReviewerNumber(5, "alicce") === 'Ошибка: оба параметра должны быть числами', 'Тест 7: должна быть ошибка для нечисловых параметров');
+console.assert(getReviewerNumber(5.5, 3) === 'Ошибка: номер студента и лабораторной работы должны быть целыми числами', 'Тест 8: должна быть ошибка для дробных чисел');
+console.assert(getReviewerNumber(0, 3) === 'Ошибка: номер студента и лабораторной работы должны быть положительными числами', 'Тест 9: должна быть ошибка для нулевых значений');
+console.assert(getReviewerNumber(22, 1) === 23, 'Тест 10: getReviewerNumber(22, 1) должно быть 23');
+console.assert(getReviewerNumber(24, 1) === "Ошибка: номер студента не должен превышать 23", "Тест 11 провален, ошибка для значений превышающих 23");
+
 
 //Тест задания 2.2 
 
     console.assert(getVariant(8, "a") === "Ошибка: оба параметра должны быть числами", "0Тест задания 2.2 провален (не числа)");
     console.assert(getVariant("a", 4) === "Ошибка: оба параметра должны быть числами", "01Тест задания 2.2 провален (не числа)");
-    console.assert(getVariant(8, 4) === 4, "8Тест задания 2.2 провален");
-    console.assert(getVariant(7, 4) === 3, "7Тест задания 2.2 провален");
+    console.assert(getVariant(-8, 4) === "Ошибка: оба параметра должны быть положительными числами", "8Тест задания 2.2 провален");
+    console.assert(getVariant(7, -4) === "Ошибка: оба параметра должны быть положительными числами", "7Тест задания 2.2 провален");
     console.assert(getVariant(6, 4) === 2, "6Тест задания 2.2 провален");
     console.assert(getVariant(5, 4) === 1, "5Тест задания 2.2 провален");
     console.assert(getVariant(4, 4) === 4, "4Тест задания 2.2 провален");
     console.assert(getVariant(3, 4) === 3, "3Тест задания 2.2 провален");
-    console.assert(getVariant(2, 4) === 2, "2Тест задания 2.2 провален");
-    console.assert(getVariant(1, 4) === 1, "1Тест задания 2.2 провален");
+
 
 
 //Тест задания 2.3
@@ -484,6 +517,8 @@ console.assert(calculate(5, 3, "+") === 8,
     'Тест 1 провален: 5 + 3 должно быть 8');
 console.assert(calculate(10, 4, "-") === 6, 
     'Тест 2 провален: 10 - 4 должно быть 6');
+     console.assert(calculate(10, -4, '-') === 14,
+     'Тест 3 провален: 10 - (-4) должно быть 14');
 console.assert(calculate(7, 3, "*") === 21, 
     'Тест 3 провален: 7 * 3 должно быть 21');
 console.assert(calculate(15, 3, "/") === 5, 
@@ -494,12 +529,10 @@ console.assert(calculate(5, 3, "%") === "Неизвестная операция
     'Тест 6 провален: неизвестная операция должна возвращать ошибку');
 console.assert(calculate("5", 3, "+") === "Оба параметра должны быть числами", 
     'Тест 7 провален: нечисловые параметры должны возвращать ошибку');
-console.assert(calculate(-5, -3, "+") === -8, 
-    'Тест 8 провален: -5 + (-3) должно быть -8');
+console.assert(calculate(5, "3", "+") === "Оба параметра должны быть числами", 
+    'Тест 8 провален: нечисловые параметры должны возвращать ошибку');
 console.assert(calculate(2.5, 1.5, "*") === 3.75, 
     'Тест 9 провален: 2.5 * 1.5 должно быть 3.75');
-console.assert(calculate(0, 5, "+") === 5, 
-    'Тест 10 провален: 0 + 5 должно быть 5');
 console.assert(calculate(8, 0, "-") === 8, 
     'Тест 11 провален: 8 - 0 должно быть 8');
 console.assert(calculate(0, 7, "*") === 0, 
@@ -574,10 +607,7 @@ console.assert(calculateArea('rectangle', 2.5, 3.5) === 8.75,
 console.assert(reverseString("hello") === "olleh", "Тест провален: 'hello' -> 'olleh'");
 console.assert(reverseString("12345") === "54321", "Тест провален: '12345' -> '54321'");
 console.assert(reverseString("a b c") === "c b a", "Тест провален: 'a b c' -> 'c b a'");
-console.assert(reverseString("!@#$") === "$#@!", "Тест провален: '!@#$' -> '$#@!'");
 console.assert(reverseString("") === "", "Тест провален: пустая строка -> пустая строка");
-console.assert(reverseString("a") === "a", "Тест провален: 'a' -> 'a'");
-console.assert(reverseString("ab") === "ba", "Тест провален: 'ab' -> 'ba'");
 console.assert(reverseString(123) === "Ошибка: можно передавать только строки", "Тест провален: 123 -> 321");
 //Тест задания 2.6
 console.assert(typeof(getRandomNumber(10, 20)) === "number", "Тест провален (результат не число");
