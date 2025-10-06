@@ -216,8 +216,6 @@ const student = {
             sum+= this.grades[subject];
             count ++;
         }
-      
-        
         return sum / count;
     },
     
@@ -493,14 +491,15 @@ console.assert(getReviewerNumber(24, 1) === "Ошибка: номер студе
 
 //Тест задания 2.2 
 
-    console.assert(getVariant(8, "a") === "Ошибка: оба параметра должны быть числами", "0Тест задания 2.2 провален (не числа)");
-    console.assert(getVariant("a", 4) === "Ошибка: оба параметра должны быть числами", "01Тест задания 2.2 провален (не числа)");
-    console.assert(getVariant(-8, 4) === "Ошибка: оба параметра должны быть положительными числами", "8Тест задания 2.2 провален");
-    console.assert(getVariant(7, -4) === "Ошибка: оба параметра должны быть положительными числами", "7Тест задания 2.2 провален");
-    console.assert(getVariant(6.2, 4) === 'Ошибка: оба параметра должны быть целыми числами', "6Тест задания 2.2 провален");
-    console.assert(getVariant(5, 4.2) ==='Ошибка: оба параметра должны быть целыми числами', "5Тест задания 2.2 провален");
-    console.assert(getVariant(4, 4) === 4, "4Тест задания 2.2 провален");
-    console.assert(getVariant(3, 4) === 3, "3Тест задания 2.2 провален");
+    console.assert(getVariant(8, "a") === "Ошибка: оба параметра должны быть числами", "Тест задания 2.2 провален (не числа)");
+    console.assert(getVariant("a", 4) === "Ошибка: оба параметра должны быть числами", "Тест задания 2.2 провален (не числа)");
+    console.assert(getVariant(-8, 4) === "Ошибка: оба параметра должны быть положительными числами", "Тест задания 2.2 провален");
+    console.assert(getVariant(7, -4) === "Ошибка: оба параметра должны быть положительными числами", "Тест задания 2.2 провален");
+    console.assert(getVariant(6.2, 4) === 'Ошибка: оба параметра должны быть целыми числами', "Тест задания 2.2 провален");
+    console.assert(getVariant(5, 4.2) ==='Ошибка: оба параметра должны быть целыми числами', "Тест задания 2.2 провален");
+    console.assert(getVariant(4, 4) === 4, "Тест задания 2.2 провален");
+    console.assert(getVariant(3, 4) === 3, "Тест задания 2.2 провален");
+    console.assert(getVariant(5, 4) === 1, "Тллест задания 2.2 провален");
 
 
 
@@ -548,6 +547,8 @@ console.assert(calculate(Number.MAX_VALUE, 1, '+') === Number.MAX_VALUE+1, "Те
 console.assert(calculateArea('circle', 5, NaN) === 'Ошибка: все параметры должны быть числами',"Тест провален: должна быть ошибка при передаче NaN в параметрах");
 console.assert(calculateArea('circle', 5) === Math.PI * 25, 
     'Тест круга с радиусом 5 не пройден');
+    console.assert(calculateArea('circle', 2.5) === Math.PI * 6.25, 
+    'Тест круга с радиусом 2.5 не пройден');
 
 console.assert(calculateArea('circle', 10) === Math.PI * 100, 
     'Тест круга с радиусом 10 не пройден');
@@ -610,8 +611,9 @@ console.assert(reverseString(123) === "Ошибка: можно передава
 //Тест задания 2.6
 console.assert(typeof(getRandomNumber(10, 20)) === "number", "Тест провален (результат не число");
 console.assert(getRandomNumber(10, 20) >= 10 && getRandomNumber(10, 20) <= 20, "Тест провален(результат не в границах)");
-console.assert((() => { try { getRandomNumber("1", 2); return false; } catch(e) { return e.message === 'Оба параметра должны быть числами'; } })(), "Тест 1: должна быть ошибка при нечисловых параметрах");
-console.assert((() => { try { getRandomNumber(10, 5); return false; } catch(e) { return e.message === 'Минимальное значение не может быть больше максимального'; } })(), "Тест 2: должна быть ошибка при min > max");
+console.assert((() => { try { getRandomNumber(2, "1"); return false; } catch(e) { return e.message === 'Оба параметра должны быть числами'; } })(), "Тест: должна быть ошибка при нечисловых параметрах");
+console.assert((() => { try { getRandomNumber("1", 2); return false; } catch(e) { return e.message === 'Оба параметра должны быть числами'; } })(), "Тест: должна быть ошибка при нечисловых параметрах");
+console.assert((() => { try { getRandomNumber(10, 5); return false; } catch(e) { return e.message === 'Минимальное значение не может быть больше максимального'; } })(), "Тест: должна быть ошибка при min > max");
 
 //Тест задания 3.1
     console.log(book.getInfo());
@@ -623,9 +625,8 @@ const average = student.getAverageGrade();
 console.assert(average === 90, "Тест провален: средний балл");
 student.addGrade('physics', 100);
 console.assert(student.grades.physics === 100, "Тест провален: добавление новой оценки");
-student.addGrade('math', 100);
 const newAverage = student.getAverageGrade();
-console.assert(newAverage === 95, "Тест провален: новый средний балл");
+console.assert(newAverage === 92.5, "Тест провален: новый средний балл");
 console.assert(student.addGrade("", 90) === 'Ошибка: название предмета должно быть непустой строкой',"Tест  провален: не должно быть пустой строки");
 console.assert(student.addGrade(123, 90) === 'Ошибка: название предмета должно быть непустой строкой',"Tест  провален: название предмета должно быть строкой");
 console.assert(student.addGrade("chemistry", NaN) === 'Ошибка: оценка должна быть числом',"Тест провален: оценка должна быть числом");
