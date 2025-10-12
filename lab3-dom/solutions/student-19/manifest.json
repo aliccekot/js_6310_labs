@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "KAI to 90's",
+  "version": "1.0",
+  "description": " Яркий, кислотный фон, анимированные гифки в качестве курсора, мигающий текст",
+  "permissions": ["storage"],
+  "host_permissions": ["https://kai.ru/*", "http://kai.ru/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://kai.ru/*", "http://kai.ru/*"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+      
+    }
+  ]
+}
