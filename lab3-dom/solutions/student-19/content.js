@@ -7,7 +7,7 @@ class KAI90sTheme {
         this.themeClass = 'kai-90s-theme';
         this.init();
     }
-
+   
     init() {
         this.loadState();
         this.createToggleButton();
